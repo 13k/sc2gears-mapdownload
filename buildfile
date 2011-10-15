@@ -1,11 +1,7 @@
 # vim: ft=ruby
 # encoding: utf-8
 
-require 'buildr/groovy'
-
-if groovy_artifact = Buildr.settings.build['groovy']
-  artifact_ns(Buildr::Groovy::Groovyc).groovy = groovy_artifact
-end
+require 'buildr/scala'
 
 VERSION_NUMBER = "1.0.0"
 GROUP = "sc2gears-plugins"
@@ -43,10 +39,10 @@ define "Map Download" do
   
   resources.enhance { plugin_manifest.run }
 
-  compile.using :groovyc
-  compile.with ARTIFACTS[:sc2gearspluginapi].to_s
+  compile.using :scalac
+  compile.with ARTIFACTS[:sc2gearspluginapi].to_s, "org.scala-lang:scala-swing:jar:2.9.1"
 
-  test.using :rspec
+  test.using :specs
 
   jar = package :jar
 
