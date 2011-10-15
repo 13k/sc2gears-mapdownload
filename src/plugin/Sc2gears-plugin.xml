@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin docVersion="1.0">
+  <name><%= project.name %></name>
+  <authorFirstName><%= author[:first] %></authorFirstName>
+	<authorLastName><%= author[:last] %></authorLastName>
+	<authorEmail><%= author[:email] %></authorEmail>
+	<version><%= project.version %></version>
+	<releaseDate><%= Time.now.strftime '%Y-%m-%d' %></releaseDate>
+	<apiVersion><%= artifacts[:sc2gearspluginapi].version %></apiVersion>
+	<homePage>http://u4gvn.org/sc2gears</homePage>
+	<description isHtml="true"><![CDATA[
+		<p>This plugin adds a new <b>"Download missing maps"</b> replay operations menu item which downloads missing maps of the selected replays.</p>
+		<p>Source code is available at <a href="https://github.com/13k/sc2gears-mapdownload">Github</a> page.</p>
+	]]></description>
+
+  <mainClass>org.u4gvn.sc2gears.plugins.mapdownload.MapDownloadPlugin</mainClass>	
+</plugin>
+<%# vim: set ft=eruby : %>
