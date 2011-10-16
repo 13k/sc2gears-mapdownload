@@ -48,7 +48,7 @@ define "Map Download" do
   jar = package :jar
 
   task :deploy => :package do
-    if sc2gears = settings.user['sc2gears']
+    if sc2gears = Buildr.settings.user['sc2gears']
       raise RuntimeError, "Sc2gears path #{sc2gears.inspect} not found" unless File.exists?(sc2gears)
       plugin_path = File.join sc2gears, "Plugins", project.name
       mkpath plugin_path
