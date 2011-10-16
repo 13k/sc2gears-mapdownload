@@ -1,0 +1,10 @@
+common: &common
+  artifacts:
+    Buildr::Groovy::Groovyc:
+      groovy: org.codehaus.groovy:groovy:jar:1.8.3
+    Buildr::Groovy::EasyB2:
+      easyb: org.easyb:easyb:jar:0.9.8
+
+development: *common
+production: *common
+test: *common

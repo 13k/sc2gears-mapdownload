@@ -2,10 +2,11 @@
 # encoding: utf-8
 
 require 'buildr/groovy'
-
-if groovy_artifact = Buildr.settings.build['groovy']
-  artifact_ns(Buildr::Groovy::Groovyc).groovy = groovy_artifact
+Dir[File.expand_path "../buildr/*.rb", __FILE__].each do |lib|
+  require lib
 end
+
+ArtifactNamespace.load(Buildr.settings.profile['artifacts'])
 
 VERSION_NUMBER = "1.0.0"
 GROUP = "sc2gears-plugins"
@@ -20,10 +21,6 @@ PLUGIN_MANIFEST = "Sc2gears-plugin.xml"
 
 repositories.remote << "http://www.ibiblio.org/maven2"
 repositories.remote << "http://repo1.maven.org/maven2"
-
-Dir[File.expand_path "../buildr/*.rb", __FILE__].each do |lib|
-  require lib
-end
 
 Project.local_task :deploy
 
@@ -46,12 +43,12 @@ define "Map Download" do
   compile.using :groovyc
   compile.with ARTIFACTS[:sc2gearspluginapi].to_s
 
-  test.using :rspec
+  test.using :easyb2
 
   jar = package :jar
 
   task :deploy => :package do
-    if sc2gears = Buildr.settings.build['sc2gears']
+    if sc2gears = settings.user['sc2gears']
       raise RuntimeError, "Sc2gears path #{sc2gears.inspect} not found" unless File.exists?(sc2gears)
       plugin_path = File.join sc2gears, "Plugins", project.name
       mkpath plugin_path
@@ -60,7 +57,7 @@ define "Map Download" do
       cp artifact_ns(Buildr::Groovy::Groovyc).groovy.artifact.to_s, plugin_path
       cp artifact_ns(Buildr::Groovy::Groovyc).asm.artifact.to_s, plugin_path
     else
-      puts "Sc2gears path not set in build.yml"
+      puts "Sc2gears path not set in ~/.buildr/settings.yml"
     end
   end
 end
